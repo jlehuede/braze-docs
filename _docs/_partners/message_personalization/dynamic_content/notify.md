@@ -82,12 +82,20 @@ The following request uses curl. For better API request management, we recommend
 To upload your PARTNER_NAME data to Braze, make a POST request to `PARTNER_POST_URL` using the `application/json` content-type:
 
 ```bash
-curl -X POST "PARTNER_POST_URL" \
--H "content-type: application/json" \
--d '{"braze_host":"BRAZE_API_ENDPOINT", \
-"braze_api_key":"BRAZE_API_KEY", \
-"PARTNER_host":"HOSTNAME", \
-"PARTNER_token":"PARTNER_NAME_API_TOKEN"}'
+API URL : https://rest.fra-01.braze.eu
+Path : /campaigns/trigger/send
+Headers:
+'Content-type: application/json;'
+Body:
+{
+ "api_key": "[api_key]",
+ "campaign_id": "[campaign_id]",
+ "recipients": {
+ "external_user_id": "[customer_id]",
+ "trigger_properties": {
+ "ntfOpen": "[openUrl_withUUID]" ,
+ "ntfUnsub": "[unsubUrl_withUUID]"
+}
 ```
                        
 
