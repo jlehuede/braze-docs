@@ -34,21 +34,23 @@ Before you start, you'll need the following:
 <!-- Create step-by-step instructions for integrating your tool with Braze. It's important to be concise and only outline the minimum neccesary steps. -->
 ## Integrating Notify
 
+### Step 1: Creation of a campaign
+Customer created a campaign in Braze and share the campaign api_identifier with Notify
 
-### Step 1: SFTP
+### Step 2: Creation of a segment 
+Customer will create a segment in Braze and communicate the segmentId attached to the campaign. 
 
-Notify provides an SFTP for securing data exchanges: sftp://my-notify.com
+### Step 3: Fetch the segment
+Notify will fetch with an API call the list of contacts in the segment attached to the campaign
 
-<!-- Use the "Make a post request", "Default behavior," and "Rate limit" sections to outline how users can make a POST request. If this information isn't required for your integration, you can remove these sections. -->
+Braze REST endpoint : `PARTNER_POST_URL`/users/export/segment
 
-### Step 2: CNAME
-
+### Step 4: CNAME configuration
 The CNAME allows the creation of Notify tracking links for opens and unsubscribes while maintaining the deliverability environment, ensuring that only the brand's domains are visible.
 
 To create the CNAME, you need to access the DNS configuration file and add the following line to the zone file of mydomain.com:
 
-### Step 4: Export of the Opt-in DB                                                                    
-
+### Step 5: Export of the database Opt-in                                              
 **Exclusion:**  
 Excludes any quarantines or blacklists.
 
@@ -73,29 +75,19 @@ Excludes any quarantines or blacklists.
 - Semicolon (`;`) as the separator
 
 
-### Step 3: Make a post request
+### Step 6: Notify triggers the campaign 
 
+Notify’s AI triggers the Braze campaign to send to a user at the time they deem to be most likely to engage
 
-The following request uses curl. For better API request management, we recommend using an API client, such as Postman.
-
-
-To upload your PARTNER_NAME data to Braze, make a POST request to `PARTNER_POST_URL` using the `application/json` content-type:
+This is the curl request used by Notify to trigger sending of communications.
 
 ```bash
-API URL : https://rest.fra-01.braze.eu
-Path : /campaigns/trigger/send
-Headers:
-'Content-type: application/json;'
-Body:
-{
- "api_key": "[api_key]",
- "campaign_id": "[campaign_id]",
- "recipients": {
- "external_user_id": "[customer_id]",
- "trigger_properties": {
- "ntfOpen": "[openUrl_withUUID]" ,
- "ntfUnsub": "[unsubUrl_withUUID]"
-}
+curl -X POST "PARTNER_POST_URL" \
+-H "content-type: application/json" \
+-d '{"braze_host":"BRAZE_API_ENDPOINT", \
+"braze_api_key":"BRAZE_API_KEY", \
+"PARTNER_host":"HOSTNAME", \
+"PARTNER_token":"PARTNER_NAME_API_TOKEN"}'
 ```
                        
 
