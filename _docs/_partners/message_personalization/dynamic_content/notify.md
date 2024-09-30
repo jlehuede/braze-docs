@@ -34,13 +34,13 @@ Before you start, you'll need the following:
 <!-- Create step-by-step instructions for integrating your tool with Braze. It's important to be concise and only outline the minimum neccesary steps. -->
 ## Integrating Notify
 
-### Step 1: Creation of a campaign
+### Step 1: Campaign creation
 Customer created a campaign in Braze and share the campaign api_identifier with Notify
 
-### Step 2: Creation of a segment 
+### Step 2: Segment creation
 Customer will create a segment in Braze and communicate the segmentId attached to the campaign. 
 
-### Step 3: Fetch the segment
+### Step 3: Segment fetching
 Notify will fetch with an API call the list of contacts in the segment attached to the campaign
 
 Braze REST endpoint : `PARTNER_POST_URL`/users/export/segment
@@ -50,7 +50,7 @@ The CNAME allows the creation of Notify tracking links for opens and unsubscribe
 
 To create the CNAME, you need to access the DNS configuration file and add the following line to the zone file of mydomain.com:
 
-### Step 5: Export of the database Opt-in                                              
+### Step 5: Database opt-in export                                              
 **Exclusion:**  
 Excludes any quarantines or blacklists.
 
