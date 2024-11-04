@@ -27,68 +27,21 @@ Before you start, you'll need the following:
 
 | Prerequisite          | Description                                                                                                                                |
 |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-|  A Braze REST API key  | A Braze REST API key. <br><br> This can be created in the Braze dashboard from **Settings** > **API Keys**. |
-| A Braze REST endpoint | [Your REST endpoint URL](https://rest.fra-01.braze.eu/campaigns/trigger/send). Your endpoint will depend on the Braze URL for your instance.                                                 |
-
+|  Braze REST API key  | A Braze REST API key. <br><br> This can be created in the Braze dashboard from **Settings** > **API Keys**. Don't forget to provision permissions for 'users' and 'campaigns' (endpoint used for Notify integration |
+| PARTNER_POST_URL`/users/export/segment| This endpoint is used to fetch segment attached to a campaign                                              |
+| PARTNER_POST_URL`/campaigns/trigger/send| This endpoint is used to trigger transactional communications.   
+| CNAME configuration | A subdomain has to be created for the tracking pixel that is used within the email so that Notify can track user engagement with messaging to further inform the model. Share the url of the subdomain with Notify once it's created
+| Database opt-in export | The client send to notify the campaign and purchase datas​ of the year (12 months). ​This export will be used to train Notify predictive model. <br><br> **Fields:** <br><br> **Email:** A SHA256 hash of the email, converted to lowercase and with any leading or trailing spaces removed.<br><br>**Segment:** The segment information defining the level of activity (active or inactive).<br><br>**Sub-segment:** Any other relevant activity information (client/prospect, purchase activity level, RFM, etc.). 
 
 <!-- Create step-by-step instructions for integrating your tool with Braze. It's important to be concise and only outline the minimum neccesary steps. -->
 ## Integrating Notify
 
 ### Step 1: Campaign creation
-Customer created a campaign in Braze and share the campaign api_identifier with Notify
+Create an [API triggered campaign](https://www.braze.com/docs/user_guide/engagement_tools/campaigns/building_campaigns/delivery_types/api_triggered_delivery) in Braze and share the campaign api_identifier with Notify.
 
 ### Step 2: Segment creation
 Customer will create a segment in Braze and communicate the segmentId attached to the campaign. 
 
-### Step 3: Segment fetching
-Notify will fetch with an API call the list of contacts in the segment attached to the campaign
-
-Braze REST endpoint : `PARTNER_POST_URL`/users/export/segment
-
-### Step 4: CNAME configuration
-The CNAME allows the creation of Notify tracking links for opens and unsubscribes while maintaining the deliverability environment, ensuring that only the brand's domains are visible.
-
-To create the CNAME, you need to access the DNS configuration file and add the following line to the zone file of mydomain.com:
-
-### Step 5: Database opt-in export                                              
-**Exclusion:**  
-Excludes any quarantines or blacklists.
-
-**Fields:**
-
-- Email
-- Client ID
-- Segment
-- Sub-segment
-
-**Details:**
-
-- **Email:** A SHA256 hash of the email, converted to lowercase and with any leading or trailing spaces removed.
-- **Segment:** The segment information defining the level of activity (active or inactive).
-- **Sub-segment:** Any other relevant activity information (client/prospect, purchase activity level, RFM, etc.).
-
-**Format:**
-
-- Ideally a `.csv` file
-- UTF-8 encoding
-- Line breaks (`\n`)
-- Semicolon (`;`) as the separator
-
-
-### Step 6: Notify triggers the campaign 
-
-Notify’s AI triggers the Braze campaign to send to a user at the time they deem to be most likely to engage
-
-This is the curl request used by Notify to trigger sending of communications.
-
-```bash
-curl -X POST "PARTNER_POST_URL" \
--H "content-type: application/json" \
--d '{"braze_host":"BRAZE_API_ENDPOINT", \
-"braze_api_key":"BRAZE_API_KEY", \
-"PARTNER_host":"HOSTNAME", \
-"PARTNER_token":"PARTNER_NAME_API_TOKEN"}'
-```
-                       
+             
 
 
